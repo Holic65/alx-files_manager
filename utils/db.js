@@ -29,14 +29,28 @@ class DBClient {
   
   async nbUsers() {
     const users = this.db.collection('users');
-    const countUsers = await users.countDocuments();
-    return countUsers;
+    return new Promise((resolve, reject) => {
+      users.countDocuments((err, val) => {
+        if (err) {
+          reject(err)
+        } else {
+          resolve(val);
+        }
+      });
+    });
   }
 
   async nbFiles() {
     const files = this.db.collection('files');
-    const countFiles = await files.countDocuments();
-    return countFiles;
+     return new Promise((resolve, reject) => {
+       files.countDocuments((err, val) => {
+         if (err) {
+           reject(err)
+         } else {
+           resolve(val);
+         }
+       });
+     });
   }
 }
 
