@@ -22,11 +22,11 @@ class DBClient {
     this.db = this.client.db(DB_DATABASE);
   }
 
+
   async isAlive() {
-    return !!this.client && !!this.client.topology && this.client.topology.isConnected(); 
-    //return this.isConnected;
+    return !!this.client && !!this.client.topology && this.client.topology.isConnected()
   }
-  
+
   async nbUsers() {
     const users = this.db.collection('users');
     return new Promise((resolve, reject) => {

@@ -4,14 +4,11 @@ class RedisClient {
   constructor() {
     this.client = createClient();
     this.client.on('error', err => console.log('Redis Client Error ', err)); 
+    this.client.on('ready', () => {});
   }
 
   isAlive() {
-    if (this.client.connected) {
-      return true;
-    } else {
-      return false;
-    }
+    return this.client.connected
   }
 
   async get(key) {
@@ -19,16 +16,18 @@ class RedisClient {
       this.client.get(key, (err, value) => {
         if (err) {
           reject(err);
-        } else {
-          resolve(value);
         }
+        if(value == undefined) {
+          resolve(null);
+        }
+        resolve(value);
       });
     });
   }
 
   async set(key, value, time) {
    return new Promise((resolve, reject) => {
-     this.client.set(key, value, 'EX', time, (err) => {
+     this.client.setex(key, time, value, (err) => {
        if (err) {
          reject(err);
        } else {
