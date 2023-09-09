@@ -10,7 +10,7 @@ class DBClient {
   
   
     const url =  `mongodb://${DB_HOST}:${DB_PORT}?directConnection=true`;
-    this.client = MongoClient(url, {
+    this.client = new MongoClient(url, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
@@ -24,7 +24,8 @@ class DBClient {
 
 
   async isAlive() {
-    return !!this.client && !!this.client.topology && this.client.topology.isConnected()
+    //return !!this.client && !!this.client.topology && this.client.topology.isConnected()
+    return this.client.isConnected()
   }
 
   async nbUsers() {
@@ -55,4 +56,4 @@ class DBClient {
 }
 
 const dbClient = new DBClient();
-module.exports = dbClient;
+export default dbClient;
