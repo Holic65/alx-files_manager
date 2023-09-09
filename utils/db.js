@@ -14,7 +14,7 @@ class DBClient {
       useUnifiedTopology: true,
       useNewUrlParser: true,
     });
-
+    
     this.client.connect().catch((error) => {
       console.error('Error occurred while connection to MongoDB:', error);
     });
@@ -22,10 +22,9 @@ class DBClient {
     this.db = this.client.db(DB_DATABASE);
   }
 
-
-  async isAlive() {
-    //return !!this.client && !!this.client.topology && this.client.topology.isConnected()
-    return this.client.isConnected()
+  isAlive() {
+    return !!this.client && !!this.client.topology && this.client.topology.isConnected()
+    //return this.client.isConnected();
   }
 
   async nbUsers() {
